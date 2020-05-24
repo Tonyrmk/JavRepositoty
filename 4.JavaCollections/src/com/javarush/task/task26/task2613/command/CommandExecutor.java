@@ -16,6 +16,7 @@ public class CommandExecutor {
         allKnownCommandsMap.put(Operation.DEPOSIT , new DepositCommand());
         allKnownCommandsMap.put(Operation.WITHDRAW , new WithdrawCommand());
         allKnownCommandsMap.put(Operation.EXIT , new ExitCommand());
+        allKnownCommandsMap.put(Operation.LOGIN , new LoginCommand());
 
     }
     public static final void execute(Operation operatin) throws InterruptOperationException

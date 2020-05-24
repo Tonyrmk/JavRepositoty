@@ -69,6 +69,7 @@ public class ConsoleHelper {
        while(true) {
            try{
                int num = Integer.parseInt(readString());
+
                op =Operation.getAllowableOperationByOrdinal(num);
                break;
            }catch (IllegalArgumentException e){
