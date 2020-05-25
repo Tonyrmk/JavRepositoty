@@ -5,9 +5,10 @@ import com.javarush.task.task26.task2613.exception.InterruptOperationException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.Buffer;
+import java.util.ResourceBundle;
 
 public class ConsoleHelper {
+    private static ResourceBundle res= ResourceBundle.getBundle(CashMachine.class.getPackage().getName() + ".resources.common_en");
     private static BufferedReader bis =new BufferedReader(new InputStreamReader(System.in));
     public static void writeMessage(String message){
         System.out.println(message);
@@ -25,12 +26,13 @@ public class ConsoleHelper {
         return s;
     }
     public static String askCurrencyCode() throws InterruptOperationException{
-        writeMessage("Введите код валюты , который содержит 3 символа ");
+
         String code =null;
        while(true) {
+           writeMessage(res.getString("choose.currency.code"));
             code =readString();
             if (code.length()!=3){
-                writeMessage("Вы ввели не корректный код , коддолжен соержать 3 символа ");}
+                writeMessage(res.getString("invalid.data"));}
 
             else {
                 code =code.toUpperCase();
@@ -41,39 +43,46 @@ public class ConsoleHelper {
     }
 
     public static String[] getValidTwoDigits(String currencyCode)throws InterruptOperationException{
-        writeMessage("Ведите номинал и количество банкнот");
+        writeMessage(String.format(res.getString("choose.denomination.and.count.format"),currencyCode));
         String[] curVal=null;
         while (true){
             String s =readString();
             curVal=s.split(" ");
             if (curVal.length!=2){
-                writeMessage("Данные введены не корректно посторите ввод номинала и количества банкнот");
+                writeMessage(res.getString("invalid.data"));
                 continue;
             }
            try{ if(Integer.parseInt(curVal[0])>=0 && Integer.parseInt(curVal[1])>=0){
             break;}
              else {
-                 writeMessage("Данные введены не корректно посторите ввод номинала и количества банкнот");
+                 writeMessage(res.getString("invalid.data"));
                  continue;
            }
            }catch ( NumberFormatException e ){
-               writeMessage("Данные введены не корректно посторите ввод номинала и количества банкнот");
+               writeMessage(res.getString("invalid.data"));
                continue;
             }
         }
         return curVal;
     }
     public static Operation askOperation()throws InterruptOperationException{
-        writeMessage("1 - INFO, 2 - DEPOSIT, 3 - WITHDRAW, 4 - EXIT ");
+
         Operation op;
        while(true) {
+
+
            try{
+               writeMessage(res.getString("choose.operation"));
+               writeMessage(res.getString("operation.INFO") + " - 1");
+               writeMessage(res.getString("operation.DEPOSIT") + " - 2");
+               writeMessage(res.getString("operation.WITHDRAW") + " - 3");
+               writeMessage(res.getString("operation.EXIT") + " - 4");
                int num = Integer.parseInt(readString());
 
                op =Operation.getAllowableOperationByOrdinal(num);
                break;
            }catch (IllegalArgumentException e){
-               writeMessage("Данные введены не корректно , повторите ");
+               writeMessage(res.getString("invalid.data"));
                continue;
            }
        }
